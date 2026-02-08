@@ -1,0 +1,8 @@
+# robots.txt for AIClab Homepage
+# https://aiclab-homepage.vercel.app
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://aiclab-homepage.vercel.app/sitemap.xml
