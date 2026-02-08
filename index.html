@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>김진수 | GEO마케팅연구원 부원장 · AIClab</title>
+  <meta name="description" content="AI를 비즈니스 자산으로 전환하는 실무형 교육 · 바이브코딩으로 디지털 전환. 생성형AI 교육, AI 콘텐츠 제작, 강사 양성." />
+  <meta property="og:title" content="김진수 | GEO마케팅연구원 부원장 · AIClab" />
+  <meta property="og:description" content="AI를 비즈니스 자산으로 전환하는 실무형 교육 · 바이브코딩" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+  <!-- Spline 3D Viewer -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+  <style>
+    :root {
+      --bg: #000000;
+      --text: #FFFFFF;
+      --muted: #AAAAAA;
+      --accent: #FF0000;
+      --accent2: #0048BA;
+      --line: rgba(255,255,255,0.15);
+      --shadow: 0 20px 60px rgba(0,0,0,0.5);
+      --radius: 16px;
+      --max: 1120px;
+      --sans: 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: var(--sans);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    a { color: inherit; text-decoration: none; }
+    
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 24px; }
+    
+    /* 헤더 */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .brand-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,0,0,0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(255,0,0,0); }
+    }
+    .brand b { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; }
+    .pill {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .nav { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .nav a {
+      font-size: 14px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    .nav a:hover::after { width: 60%; }
+    .nav a:hover { color: var(--accent); }
+    .cta-btn {
+      background: var(--accent);
+      color: var(--bg) !important;
+      font-weight: 800;
+      padding: 10px 18px !important;
+      border-radius: 8px !important;
+    }
+    .cta-btn::after { display: none !important; }
+    .cta-btn:hover { 
+      background: #CC0000; 
+      transform: scale(1.05);
+    }
+    
+    /* 히어로 섹션 with Spline 3D */
+    .hero-container {
+      position: relative;
+      min-height: 600px;
+      background: rgba(0,0,0,0.96);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    
+    /* Spotlight 효과 */
+    .spotlight {
+      position: absolute;
+      top: -40px;
+      left: 60px;
+      width: 84%;
+      height: 169%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      animation: spotlight 2s ease-in-out forwards;
+    }
+    @keyframes spotlight {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    
+    .hero-inner {
+      display: flex;
+      min-height: 600px;
+      position: relative;
+    }
+    
+    /* 왼쪽 콘텐츠 */
+    .hero-content {
+      flex: 1;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+    }
+    
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .badge {
+      font-size: 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .badge:hover {
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+    
+    /* 키네틱 타이틀 */
+    .kinetic-title {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #FAFAFA 0%, #A0A0A0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .kinetic-title .highlight {
+      background: linear-gradient(135deg, var(--accent), #FF6666);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+    .kinetic-title .highlight-blue {
+      background: linear-gradient(135deg, var(--accent2), #66A3FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite 0.5s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    
+    .sub-text {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      max-width: 500px;
+      line-height: 1.7;
+    }
+    .sub-text strong { color: var(--text); }
+    
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      border: 2px solid var(--line);
+    }
+    .btn:hover { border-color: var(--text); transform: translateY(-2px); }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+    .btn.primary:hover { 
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 25px 70px rgba(255,0,0,0.3);
+    }
+    
+    /* 오른쪽 - Spline 3D */
+    .hero-3d {
+      flex: 1;
+      position: relative;
+      min-height: 400px;
+    }
+    .hero-3d spline-viewer {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    
+    /* 로딩 스피너 */
+    .loader-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+    }
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--line);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* 반응형 */
+    @media (max-width: 900px) {
+      .hero-inner { flex-direction: column; }
+      .hero-content { padding: 32px; }
+      .hero-3d { min-height: 350px; }
+      .kinetic-title { font-size: 32px; }
+    }
+    
+    /* 섹션 */
+    .section {
+      padding: 80px 0;
+      border-top: 1px solid var(--line);
+    }
+    .section-title {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+    .section-title .accent { color: var(--accent); }
+    .section-desc { color: var(--muted); margin-bottom: 32px; }
+    
+    /* KPI 그리드 */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .kpi-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    .kpi-card:hover::before { transform: scaleX(1); }
+    .kpi-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(255,0,0,0.1);
+    }
+    .kpi-num {
+      font-size: 42px;
+      font-family: var(--mono);
+      font-weight: 900;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .kpi-label { font-weight: 700; margin-top: 8px; }
+    .kpi-note { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    
+    /* 토글/아코디언 */
+    .toggle-section { margin-top: 40px; }
+    details.toggle-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+    }
+    details.toggle-card[open] {
+      border-color: var(--accent2);
+      background: rgba(0,72,186,0.05);
+    }
+    details.toggle-card summary {
+      padding: 20px 24px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none;
+    }
+    details.toggle-card summary::-webkit-details-marker { display: none; }
+    details.toggle-card summary::after {
+      content: '+';
+      font-size: 24px;
+      color: var(--accent);
+      transition: transform 0.3s ease;
+    }
+    details.toggle-card[open] summary::after {
+      content: '−';
+      color: var(--accent2);
+    }
+    .toggle-content {
+      padding: 0 24px 24px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .toggle-content ul { 
+      list-style: none; 
+      margin-top: 12px;
+    }
+    .toggle-content li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      gap: 12px;
+    }
+    .toggle-content li:last-child { border: none; }
+    .toggle-content li b { color: var(--text); min-width: 80px; }
+    
+    /* 영상 섹션 */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 24px;
+    }
+    @media (max-width: 500px) {
+      .video-grid { grid-template-columns: 1fr; }
+    }
+    .video-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+    .video-card:hover { border-color: var(--accent2); }
+    .video-card h3 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .video-embed {
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .video-embed iframe { width: 100%; height: 100%; border: 0; }
+    
+    /* 푸터 */
+    .footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .footer a { color: var(--accent); }
+    .footer .pill { margin-left: 8px; }
+    
+    /* 반응형 */
+    @media (max-width: 768px) {
+      .section { padding: 50px 0; }
+      .kpi-num { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <b>김진수 · AIClab</b>
+        <span class="pill">GEO마케팅연구원 부원장</span>
+      </div>
+      <nav class="nav">
+        <a href="index.html">홈</a>
+        <a href="about.html">소개</a>
+        <a href="programs.html">프로그램</a>
+        <a href="results.html">실적</a>
+        <a href="contact.html" class="cta-btn">문의하기</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <!-- 히어로 with Spline 3D -->
+    <section class="hero-container">
+      <!-- Spotlight SVG -->
+      <svg class="spotlight" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3787 2842" fill="none">
+        <g filter="url(#spotlight-filter)">
+          <ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501" 
+            transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)" 
+            fill="white" fill-opacity="0.21"></ellipse>
+        </g>
+        <defs>
+          <filter id="spotlight-filter" x="0.860352" y="0.838989" width="3785.16" height="2840.26" 
+            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
+            <feGaussianBlur stdDeviation="151" result="effect1_foregroundBlur"></feGaussianBlur>
+          </filter>
+        </defs>
+      </svg>
+
+      <div class="hero-inner">
+        <!-- 왼쪽 콘텐츠 -->
+        <div class="hero-content">
+          <div class="badge-row">
+            <span class="badge">CEO마케팅전문가</span>
+            <span class="badge">체험 중심 실무형 교육</span>
+            <span class="badge">AI 바이브코딩 마스터</span>
+          </div>
+
+          <h1 class="kinetic-title">
+            AI를 <span class="highlight">'비즈니스 자산'</span>으로<br/>
+            전환하는 <span class="highlight-blue">실무형 교육</span>
+          </h1>
+
+          <p class="sub-text">
+            <strong>GEO마케팅연구원 부원장 · AIClab 소장</strong><br/>
+            AI 강사 양성 / 생성형AI 콘텐츠 제작 / 업무 효율화 / 바이브코딩으로 디지털 전환
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="contact.html">강의·협업 문의</a>
+            <a class="btn" href="programs.html">프로그램 보기</a>
+          </div>
+        </div>
+
+        <!-- 오른쪽 - Spline 3D -->
+        <div class="hero-3d">
+          <div class="loader-container" id="loader">
+            <div class="loader"></div>
+          </div>
+          <spline-viewer 
+            url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+            loading-anim-type="spinner-small-dark"
+            events-target="global"
+          ></spline-viewer>
+        </div>
+      </div>
+    </section>
+
+    <!-- KPI 섹션 -->
+    <section class="section">
+      <h2 class="section-title">핵심 <span class="accent">성과</span></h2>
+      <p class="section-desc">강의·교육·창작 생태계 성과 요약</p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-num">500+</div>
+          <div class="kpi-label">총 강의</div>
+          <div class="kpi-note">누적 횟수</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">2,000+</div>
+          <div class="kpi-label">교육생</div>
+          <div class="kpi-note">누적 인원</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">151</div>
+          <div class="kpi-label">AI 신예 아티스트 배출</div>
+          <div class="kpi-note">창작 참여자</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">87</div>
+          <div class="kpi-label">수강생 공저 작가</div>
+          <div class="kpi-note">출판/공저</div>
+        </div>
+      </div>
+
+      <!-- 추가 성과 토글 -->
+      <div class="toggle-section">
+        <details class="toggle-card">
+          <summary>전시 및 출간 실적 보기</summary>
+          <div class="toggle-content">
+            <ul>
+              <li><b>전시</b> 4회 개최 (참여 151명 / 작품 200점)</li>
+              <li><b>출간</b> 『이것이 GEO마케팅이다』, 『쉼의 온도』 외 다수</li>
+              <li><b>검증</b> <a href="https://ebook-product.kyobobook.co.kr/dig/epd/sam/E000012458157" target="_blank" style="color:var(--accent2)">교보 eBook 확인 →</a></li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 대표 영상 -->
+    <section class="section">
+      <h2 class="section-title">대표 <span class="accent">영상</span></h2>
+      <p class="section-desc">강의 스타일과 전문성 확인</p>
+
+      <div class="video-grid">
+        <div class="video-card">
+          <h3>AI영상제작자를 위한 젠스파크AI 활용</h3>
+          <div class="video-embed">
+            <iframe src="https://www.youtube.com/embed/Rjh1f7gj_9M" title="AI영상제작자를 위한 젠스파크AI 활용" allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="video-card">
+          <h3>GEO마케팅 연구원 인터뷰</h3>
+          <div class="video-embed">
+            <iframe src="https://www.youtube.com/embed/4KHbGpPVsTY" title="GEO마케팅 연구원 김진수 부원장 인터뷰" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 푸터 -->
+    <div class="footer">
+      © AIClab(AI콘텐츠융합연구소) · 김진수 <span class="pill">GEO마케팅연구원 부원장</span>
+      <div style="margin-top:12px">
+        <a href="contact.html">문의하기</a> · <a href="https://www.fntoday.co.kr/news/articleView.html?idxno=359463" target="_blank">인터뷰 보기</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Spline 로드 완료 시 로더 숨기기
+    document.querySelector('spline-viewer').addEventListener('load', function() {
+      document.getElementById('loader').style.display = 'none';
+    });
+    // 5초 후 로더 강제 숨김 (백업)
+    setTimeout(function() {
+      var loader = document.getElementById('loader');
+      if (loader) loader.style.display = 'none';
+    }, 5000);
+  </script>
+</body>
+</html>

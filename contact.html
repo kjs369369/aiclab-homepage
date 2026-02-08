@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>문의 | 김진수 · AIClab</title>
+  <meta name="description" content="강의/협업/컨설팅 문의: info@aiclab2020.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000000;
+      --text: #FFFFFF;
+      --muted: #AAAAAA;
+      --accent: #FF0000;
+      --accent2: #0048BA;
+      --line: rgba(255,255,255,0.15);
+      --radius: 16px;
+      --max: 1120px;
+      --sans: 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); color: var(--text); background: var(--bg); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 24px; }
+    
+    .topbar { position: sticky; top: 0; z-index: 100; background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--line); }
+    .topbar-inner { max-width: var(--max); margin: 0 auto; padding: 16px 24px; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .brand { display: flex; gap: 12px; align-items: center; }
+    .brand-dot { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,0,0,0.7); } 50% { box-shadow: 0 0 0 10px rgba(255,0,0,0); } }
+    .brand b { font-size: 18px; font-weight: 900; }
+    .pill { font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--accent); color: var(--accent); font-weight: 700; }
+    .nav { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .nav a { font-size: 14px; padding: 10px 14px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
+    .nav a:hover { color: var(--accent); }
+    .cta-btn { background: var(--accent); color: var(--bg) !important; font-weight: 800; padding: 10px 18px !important; border-radius: 8px !important; }
+    .cta-btn:hover { background: #CC0000; transform: scale(1.05); }
+    
+    .page-header { padding: 60px 0 40px; text-align: center; }
+    .page-title { font-size: clamp(32px, 6vw, 48px); font-weight: 900; letter-spacing: -1px; margin-bottom: 16px; }
+    .page-title .accent { color: var(--accent); }
+    .page-desc { color: var(--muted); font-size: 18px; }
+    .email-highlight { 
+      display: inline-block; 
+      margin-top: 16px; 
+      padding: 12px 24px; 
+      background: linear-gradient(135deg, rgba(255,0,0,0.1), rgba(0,72,186,0.1)); 
+      border: 1px solid var(--accent); 
+      border-radius: 999px; 
+      font-weight: 700; 
+      font-size: 18px;
+    }
+    
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding: 40px 0; }
+    @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
+    
+    .form-card { 
+      background: rgba(255,255,255,0.02); 
+      border: 1px solid var(--line); 
+      border-radius: var(--radius); 
+      padding: 32px;
+    }
+    .form-card h2 { font-size: 24px; font-weight: 900; margin-bottom: 24px; }
+    .form-card h2 .accent { color: var(--accent2); }
+    
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
+    .field input, .field textarea { 
+      width: 100%; 
+      padding: 14px 16px; 
+      border-radius: 12px; 
+      border: 1px solid var(--line); 
+      background: rgba(255,255,255,0.03); 
+      color: var(--text); 
+      font-size: 15px;
+      font-family: var(--sans);
+      transition: all 0.3s ease;
+    }
+    .field input:focus, .field textarea:focus { 
+      outline: none; 
+      border-color: var(--accent2); 
+      background: rgba(0,72,186,0.05);
+    }
+    .field textarea { min-height: 140px; resize: vertical; }
+    .field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+    
+    .btn-primary { 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 10px; 
+      padding: 16px 32px; 
+      background: linear-gradient(135deg, var(--accent), var(--accent2)); 
+      border: none;
+      border-radius: 12px; 
+      font-weight: 800; 
+      font-size: 16px; 
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.3s ease; 
+      width: 100%;
+      justify-content: center;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(255,0,0,0.2); }
+    
+    .response-note { text-align: center; margin-top: 16px; font-size: 14px; color: var(--muted); }
+    
+    .info-card { 
+      background: rgba(255,255,255,0.02); 
+      border: 1px solid var(--line); 
+      border-radius: var(--radius); 
+      padding: 32px;
+    }
+    .info-card h2 { font-size: 24px; font-weight: 900; margin-bottom: 24px; }
+    .info-card h2 .accent { color: var(--accent); }
+    
+    .info-item { 
+      padding: 20px 0; 
+      border-bottom: 1px solid var(--line);
+    }
+    .info-item:last-child { border: none; }
+    .info-item h3 { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
+    .info-item p { font-size: 16px; font-weight: 700; }
+    .info-item a { color: var(--accent2); text-decoration: underline; }
+    
+    .quick-links { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+    .quick-link { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      padding: 16px; 
+      background: rgba(255,255,255,0.03); 
+      border: 1px solid var(--line); 
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    .quick-link:hover { border-color: var(--accent); transform: translateX(5px); }
+    .quick-link span { font-weight: 700; }
+    
+    .footer { padding: 40px 0; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 14px; margin-top: 40px; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-dot"></span><b>김진수 · AIClab</b><span class="pill">GEO마케팅연구원 부원장</span></div>
+      <nav class="nav">
+        <a href="index.html">홈</a>
+        <a href="about.html">소개</a>
+        <a href="programs.html">프로그램</a>
+        <a href="results.html">실적</a>
+        <a href="contact.html" class="cta-btn">문의하기</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="page-header">
+      <h1 class="page-title"><span class="accent">문의</span>하기</h1>
+      <p class="page-desc">강의/협업/컨설팅 문의는 아래로 연락 주세요.</p>
+      <div class="email-highlight">info@aiclab2020.com</div>
+    </div>
+
+    <div class="contact-grid">
+      <div class="form-card">
+        <h2>문의 <span class="accent">폼</span></h2>
+        
+        <div class="field">
+          <label>이름</label>
+          <input type="text" placeholder="홍길동">
+        </div>
+        <div class="field">
+          <label>소속</label>
+          <input type="text" placeholder="회사/기관명">
+        </div>
+        <div class="field">
+          <label>문의 목적</label>
+          <input type="text" placeholder="강의 / 협업 / 컨설팅 / 프로그램">
+        </div>
+        <div class="field">
+          <label>예산/일정</label>
+          <input type="text" placeholder="예산 범위, 희망 일정">
+        </div>
+        <div class="field">
+          <label>희망 주제 및 상황</label>
+          <textarea placeholder="대상, 목적, 현재 상황, 원하는 결과물을 적어주세요."></textarea>
+        </div>
+        
+        <a class="btn-primary" href="mailto:info@aiclab2020.com?subject=%5BAIClab%5D%20%EA%B0%95%EC%9D%98%2F%ED%98%91%EC%97%85%20%EB%AC%B8%EC%9D%98&body=%EC%9D%B4%EB%A6%84%3A%0A%EC%86%8C%EC%86%8D%3A%0A%EB%AA%A9%EC%A0%81%3A%0A%EC%98%88%EC%82%B0%2F%EC%9D%BC%EC%A0%95%3A%0A%ED%9D%AC%EB%A7%9D%20%EC%A3%BC%EC%A0%9C%2F%EC%83%81%ED%99%A9%3A%0A">
+          이메일로 바로 문의 →
+        </a>
+        <p class="response-note">회신: 24~48시간 내</p>
+      </div>
+
+      <div class="info-card">
+        <h2>연락처 <span class="accent">정보</span></h2>
+        
+        <div class="info-item">
+          <h3>이메일</h3>
+          <p><a href="mailto:info@aiclab2020.com">info@aiclab2020.com</a></p>
+        </div>
+        <div class="info-item">
+          <h3>소속</h3>
+          <p>GEO마케팅연구원 부원장<br/>AIClab(AI콘텐츠융합연구소) 소장</p>
+        </div>
+        <div class="info-item">
+          <h3>전문 분야</h3>
+          <p>생성형AI 교육 · AI 바이브코딩 · 강사 양성</p>
+        </div>
+        
+        <div class="quick-links">
+          <a href="programs.html" class="quick-link">
+            <span>📚</span>
+            <span>프로그램 둘러보기</span>
+          </a>
+          <a href="results.html" class="quick-link">
+            <span>📊</span>
+            <span>실적 확인하기</span>
+          </a>
+          <a href="https://www.fntoday.co.kr/news/articleView.html?idxno=359463" target="_blank" class="quick-link">
+            <span>📰</span>
+            <span>인터뷰 보기</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      © AIClab(AI콘텐츠융합연구소) · 김진수 <span class="pill">GEO마케팅연구원 부원장</span>
+    </div>
+  </main>
+</body>
+</html>
