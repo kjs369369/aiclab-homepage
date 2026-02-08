@@ -67,7 +67,7 @@
     
     .field { margin-bottom: 20px; }
     .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
-    .field input, .field textarea { 
+    .field input, .field textarea, .field select { 
       width: 100%; 
       padding: 14px 16px; 
       border-radius: 12px; 
@@ -78,13 +78,14 @@
       font-family: var(--sans);
       transition: all 0.3s ease;
     }
-    .field input:focus, .field textarea:focus { 
+    .field input:focus, .field textarea:focus, .field select:focus { 
       outline: none; 
       border-color: var(--accent2); 
       background: rgba(0,72,186,0.05);
     }
     .field textarea { min-height: 140px; resize: vertical; }
     .field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+    .field select option { background: var(--bg); color: var(--text); }
     
     .btn-primary { 
       display: inline-flex; 
@@ -103,8 +104,29 @@
       justify-content: center;
     }
     .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(255,0,0,0.2); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     
     .response-note { text-align: center; margin-top: 16px; font-size: 14px; color: var(--muted); }
+    
+    /* 성공/에러 메시지 */
+    .form-message { 
+      padding: 16px; 
+      border-radius: 12px; 
+      margin-bottom: 20px; 
+      text-align: center;
+      font-weight: 600;
+      display: none;
+    }
+    .form-message.success { 
+      background: rgba(0, 200, 83, 0.1); 
+      border: 1px solid rgba(0, 200, 83, 0.5); 
+      color: #00c853;
+    }
+    .form-message.error { 
+      background: rgba(255, 0, 0, 0.1); 
+      border: 1px solid rgba(255, 0, 0, 0.5); 
+      color: var(--accent);
+    }
     
     .info-card { 
       background: rgba(255,255,255,0.02); 
@@ -139,6 +161,18 @@
     .quick-link span { font-weight: 700; }
     
     .footer { padding: 40px 0; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 14px; margin-top: 40px; }
+    
+    /* 로딩 스피너 */
+    .spinner { 
+      width: 20px; 
+      height: 20px; 
+      border: 2px solid transparent; 
+      border-top-color: var(--text); 
+      border-radius: 50%; 
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -166,30 +200,51 @@
       <div class="form-card">
         <h2>문의 <span class="accent">폼</span></h2>
         
-        <div class="field">
-          <label>이름</label>
-          <input type="text" placeholder="홍길동">
-        </div>
-        <div class="field">
-          <label>소속</label>
-          <input type="text" placeholder="회사/기관명">
-        </div>
-        <div class="field">
-          <label>문의 목적</label>
-          <input type="text" placeholder="강의 / 협업 / 컨설팅 / 프로그램">
-        </div>
-        <div class="field">
-          <label>예산/일정</label>
-          <input type="text" placeholder="예산 범위, 희망 일정">
-        </div>
-        <div class="field">
-          <label>희망 주제 및 상황</label>
-          <textarea placeholder="대상, 목적, 현재 상황, 원하는 결과물을 적어주세요."></textarea>
-        </div>
+        <!-- 성공/에러 메시지 -->
+        <div id="formMessage" class="form-message"></div>
         
-        <a class="btn-primary" href="mailto:info@aiclab2020.com?subject=%5BAIClab%5D%20%EA%B0%95%EC%9D%98%2F%ED%98%91%EC%97%85%20%EB%AC%B8%EC%9D%98&body=%EC%9D%B4%EB%A6%84%3A%0A%EC%86%8C%EC%86%8D%3A%0A%EB%AA%A9%EC%A0%81%3A%0A%EC%98%88%EC%82%B0%2F%EC%9D%BC%EC%A0%95%3A%0A%ED%9D%AC%EB%A7%9D%20%EC%A3%BC%EC%A0%9C%2F%EC%83%81%ED%99%A9%3A%0A">
-          이메일로 바로 문의 →
-        </a>
+        <form id="contactForm">
+          <div class="field">
+            <label>이름 *</label>
+            <input type="text" name="name" placeholder="홍길동" required>
+          </div>
+          <div class="field">
+            <label>이메일 *</label>
+            <input type="email" name="email" placeholder="example@email.com" required>
+          </div>
+          <div class="field">
+            <label>연락처</label>
+            <input type="tel" name="phone" placeholder="010-0000-0000">
+          </div>
+          <div class="field">
+            <label>소속</label>
+            <input type="text" name="company" placeholder="회사/기관명">
+          </div>
+          <div class="field">
+            <label>문의 유형 *</label>
+            <select name="type" required>
+              <option value="">선택해주세요</option>
+              <option value="강의">강의 요청</option>
+              <option value="협업">협업 제안</option>
+              <option value="컨설팅">컨설팅 문의</option>
+              <option value="프로그램">프로그램 수강</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>예산/일정</label>
+            <input type="text" name="budget" placeholder="예산 범위, 희망 일정">
+          </div>
+          <div class="field">
+            <label>상세 내용 *</label>
+            <textarea name="message" placeholder="대상, 목적, 현재 상황, 원하는 결과물을 적어주세요." required></textarea>
+          </div>
+          
+          <button type="submit" class="btn-primary" id="submitBtn">
+            <span id="btnText">문의하기</span>
+            <span class="spinner" id="spinner"></span>
+          </button>
+        </form>
         <p class="response-note">회신: 24~48시간 내</p>
       </div>
 
@@ -226,8 +281,9 @@
       </div>
     </div>
 
+    <!-- 푸터 -->
     <footer class="footer" style="padding: 40px 0; border-top: 1px solid var(--line);">
-      <div style="display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; font-size: 14px;">
+      <div style="display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; font-size: 14px; justify-content: center;">
         <a href="terms.html" style="color: var(--text); font-weight: 600;">이용약관</a>
         <a href="privacy.html" style="color: var(--text); font-weight: 600;">개인정보처리방침</a>
         <a href="policy.html" style="color: var(--text); font-weight: 600;">이용정책</a>
@@ -245,5 +301,99 @@
       </div>
     </footer>
   </main>
+
+  <script>
+    // ============================================
+    // 구글 시트 연동 설정
+    // ============================================
+    // 아래 URL을 구글 Apps Script 웹 앱 URL로 교체하세요
+    // 설정 방법은 README 또는 관리자에게 문의하세요
+    const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+    
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const spinner = document.getElementById('spinner');
+    const formMessage = document.getElementById('formMessage');
+    
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      // 버튼 비활성화 및 로딩 표시
+      submitBtn.disabled = true;
+      btnText.textContent = '전송 중...';
+      spinner.style.display = 'inline-block';
+      formMessage.style.display = 'none';
+      
+      // 폼 데이터 수집
+      const formData = new FormData(form);
+      const data = {
+        timestamp: new Date().toLocaleString('ko-KR'),
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone') || '-',
+        company: formData.get('company') || '-',
+        type: formData.get('type'),
+        budget: formData.get('budget') || '-',
+        message: formData.get('message')
+      };
+      
+      try {
+        // 구글 시트가 설정되지 않은 경우 이메일로 대체
+        if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+          // mailto 링크로 이동
+          const subject = encodeURIComponent(`[AIClab] ${data.type} 문의 - ${data.name}`);
+          const body = encodeURIComponent(
+            `이름: ${data.name}\n` +
+            `이메일: ${data.email}\n` +
+            `연락처: ${data.phone}\n` +
+            `소속: ${data.company}\n` +
+            `문의 유형: ${data.type}\n` +
+            `예산/일정: ${data.budget}\n\n` +
+            `상세 내용:\n${data.message}`
+          );
+          window.location.href = `mailto:info@aiclab2020.com?subject=${subject}&body=${body}`;
+          
+          // 버튼 복원
+          submitBtn.disabled = false;
+          btnText.textContent = '문의하기';
+          spinner.style.display = 'none';
+          return;
+        }
+        
+        // 구글 시트로 전송
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        
+        // 성공 메시지 표시
+        formMessage.className = 'form-message success';
+        formMessage.textContent = '✅ 문의가 성공적으로 전송되었습니다! 빠르게 회신드리겠습니다.';
+        formMessage.style.display = 'block';
+        form.reset();
+        
+      } catch (error) {
+        console.error('Error:', error);
+        formMessage.className = 'form-message error';
+        formMessage.textContent = '❌ 전송에 실패했습니다. 이메일로 직접 문의해주세요.';
+        formMessage.style.display = 'block';
+      }
+      
+      // 버튼 복원
+      submitBtn.disabled = false;
+      btnText.textContent = '문의하기';
+      spinner.style.display = 'none';
+      
+      // 5초 후 메시지 숨김
+      setTimeout(() => {
+        formMessage.style.display = 'none';
+      }, 5000);
+    });
+  </script>
 </body>
 </html>
